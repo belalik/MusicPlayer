@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        //mp = MediaPlayer.create(getApplicationContext(), R.raw.miles);
 
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
 
