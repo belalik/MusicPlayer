@@ -1,9 +1,11 @@
 package com.example.musicplayer;
 
 
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -12,6 +14,8 @@ import java.io.File;
 public class MainActivity extends AppCompatActivity {
 
     MediaPlayer mp;
+    AudioManager audioManager;
+    int actualVolume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,10 +24,20 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+
+
         Button playButton = (Button) findViewById(R.id.play_button);
 
         Button pauseButton = (Button) findViewById(R.id.pause_button);
 
+        Button stopButton = (Button) findViewById(R.id.stop_button);
+
+        Button increaseVolumeButton = (Button) findViewById(R.id.increase_volume);
+
+        Button decreaseVolumeButton = (Button) findViewById(R.id.decrease_volume);
+
+        // play
         playButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Do something in response to button click
@@ -33,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        // pause
         pauseButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Do something in response to button click
@@ -42,6 +56,44 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        // stop
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Do something in response to button click
+
+                stopMusic();
+
+            }
+        });
+
+        // stop
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Do something in response to button click
+
+                stopMusic();
+
+            }
+        });
+
+        // increase volume
+        increaseVolumeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                actualVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, actualVolume + 1, AudioManager.FLAG_SHOW_UI);
+            }
+        });
+
+        // decrease volume
+        decreaseVolumeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                actualVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, actualVolume - 1, AudioManager.FLAG_SHOW_UI);
+            }
+        });
+        //float volume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) / 15f;
+
 
 
     }
@@ -57,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 mp = MediaPlayer.create(getApplicationContext(), R.raw.miles);
             }
 
-
+            //mp.prepare();
             mp.start(); // starting mediaplayer
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,5 +130,34 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
+    private void stopMusic() {
+
+        try {
+
+            if (mp != null) {
+                mp.stop();
+                mp.release();
+                mp = null;
+
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    private void setVolume(float leftVolume, float rightVolume) {
+        if (mp != null) {
+            mp.setVolume(leftVolume, rightVolume);
+        }
+
+    }
+
+
 
 }
