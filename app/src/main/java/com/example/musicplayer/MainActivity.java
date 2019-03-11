@@ -13,9 +13,9 @@ import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
-    MediaPlayer mp;
-    AudioManager audioManager;
-    int actualVolume;
+    private MediaPlayer mp;
+    private AudioManager audioManager;
+    private int actualVolume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
