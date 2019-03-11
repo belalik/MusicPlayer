@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         // increase volume
         increaseVolumeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 actualVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
                 audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, actualVolume + 1, AudioManager.FLAG_SHOW_UI);
@@ -106,11 +108,22 @@ public class MainActivity extends AppCompatActivity {
         try {
 
             if (mp==null) {
-                mp = MediaPlayer.create(getApplicationContext(), R.raw.miles);
+                //mp = MediaPlayer.create(getApplicationContext(), R.raw.miles);
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.phrase_site);
             }
 
-            //mp.prepare();
+
             mp.start(); // starting mediaplayer
+
+            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    Toast.makeText(MainActivity.this, "Song finished", Toast.LENGTH_SHORT).show();
+                    //finish(); // finish current activity
+                }
+            });
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
